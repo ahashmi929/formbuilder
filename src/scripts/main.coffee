@@ -537,6 +537,7 @@ class BuilderView extends Backbone.View
   saveFormButton: $()
 
   events:
+    'click .js-save-form': 'saveForm'
     'click .fb-tabs a': 'showTab'
     'click .fb-add-types a': 'addField'
     'mouseover .fb-add-types': 'lockLeftWrapper'
@@ -564,6 +565,7 @@ class BuilderView extends Backbone.View
 
   bindSaveEvent: ->
     @formSaved = true
+    @saveFormButton = @$el.find(".js-save-form")
     @saveFormButton.attr('disabled', true).text(Formbuilder.options.dict.ALL_CHANGES_SAVED)
 
     unless !Formbuilder.options.AUTOSAVE
@@ -737,10 +739,6 @@ class BuilderView extends Backbone.View
 
     @$el.find(".fb-tabs a[data-target=\"#editField\"]").click()
     @scrollLeftWrapper($responseFieldEl)
-    attrs = Formbuilder.helpers.defaultFieldAttrs(model.get('type'))
-    if attrs.definition.onEdit != undefined
-        attrs.definition.onEdit model
-    @$el.find("input, textarea, [contenteditable=true]").filter(':visible').first().focus()
     return @
 
 
@@ -832,7 +830,7 @@ class Formbuilder
       attrs[Formbuilder.options.mappings.LABEL] = 'Untitled'
       attrs[Formbuilder.options.mappings.TYPE] = type
       attrs[Formbuilder.options.mappings.REQUIRED] = false
-      attrs['definition'] = Formbuilder.fields[type]
+
       attrs['options'] = {}
       Formbuilder.fields[type].defaultAttributes?(attrs, Formbuilder) || attrs
 
@@ -849,10 +847,12 @@ class Formbuilder
     HTTP_METHOD: 'POST'
     AUTOSAVE: false
     CLEAR_FIELD_CONFIRM: false
-    ENABLED_FIELDS: ['text','checkbox','dropdown', 'textarea', 'radio', 'date','section', 'signature', 'info', 'grid', 'number', 'table', 'datasource', 'time']
+    ENABLED_FIELDS: ['text','checkbox','dropdown', 'textarea', 'radio','date','number', 'time','price','file','image','section']
 
     mappings:
       SIZE: 'options.size'
+      INITIAL_VALUE: 'options.initial_value'
+      INITIAL_DATE: 'options.initial_date'
       UNITS: 'options.units'
       LABEL: 'label'
       NAME: 'definition.name'

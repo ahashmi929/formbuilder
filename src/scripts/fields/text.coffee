@@ -1,15 +1,20 @@
 Formbuilder.registerField 'text',
 
-  name: 'Text'
+  name: 'Short Answer'
 
   order: 0
 
   view: """
-    <input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
+    <% var initial_value = rf.get(Formbuilder.options.mappings.INITIAL_VALUE); %>
+    <input type='text' value='<%= initial_value %>' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
   """
 
   edit: """
-  <%= Formbuilder.templates['edit/populate_from']({ rf: rf }) %>
+  <% var minlength = rf.get(Formbuilder.options.mappings.MINLENGTH); %>
+  <% var maxlength = rf.get(Formbuilder.options.mappings.MAXLENGTH); %>
+
+  <%= Formbuilder.templates['edit/initial_value']() %>
+  <%= Formbuilder.templates['edit/min_max_length']() %>
   """
 
   addButton: """
@@ -17,5 +22,4 @@ Formbuilder.registerField 'text',
   """
 
   defaultAttributes: (attrs) ->
-    attrs.options.size = 'small'
     attrs

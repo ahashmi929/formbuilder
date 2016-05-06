@@ -1,6 +1,6 @@
 Formbuilder.registerField 'textarea',
 
-  name: 'Paragraph'
+  name: 'Long Answer'
 
   order: 5
 

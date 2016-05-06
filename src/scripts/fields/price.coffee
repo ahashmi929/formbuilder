@@ -22,5 +22,5 @@ Formbuilder.registerField 'price',
   edit: ""
 
   addButton: """
-    <span class="fb-icon-price"></span> Price
+    <span class="glyphicon glyphicon-usd"></span> Price
   """

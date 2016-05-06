@@ -12,7 +12,7 @@ Formbuilder.registerField 'number',
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/integer_only']({rf:rf}) %>
+    <%= Formbuilder.templates['edit/initial_value']() %>
     <%= Formbuilder.templates['edit/total']({rf:rf}) %>
     <%= Formbuilder.templates['edit/min_max']({rf:rf}) %>
   """
@@ -21,11 +21,6 @@ Formbuilder.registerField 'number',
   """
 
   defaultAttributes: (attrs, formbuilder) ->
-    attrs.options.calculation_type = ''
-    attrs.options.calculation_expression = ''
-    attrs.options.calculation_display = ''
-    attrs.options.total_sequence = false
-
     attrs.insertion = () ->
       parentModel = @parentModel()
       if parentModel and parentModel.get('type') == 'table'
