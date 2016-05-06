@@ -72,9 +72,10 @@ module.exports = (grunt) ->
             'bower_components/rivets/dist/rivets.js'
             'bower_components/backbone/backbone.js'
             'bower_components/backbone-deep-model/src/deep-model.js'
-            'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/bootstrap/dist/js/bootstrap.js'
             'bower_components/signature_pad/signature_pad.js'
             'bower_components/node-uuid/uuid.js'
+            'input_mask/jquery.inputmask.bundle.js'
           ]
           '<%= vendorFolder %>/css/vendor.css': [
               'bower_components/font-awesome/css/font-awesome.css',

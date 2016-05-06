@@ -38,6 +38,39 @@ Formbuilder.registerField 'number',
           @parentModel().totalColumn model.get('uuid'), totalSequence
         model
 
+      @on "change", (model) ->
+        if _.nested(model, 'changed.options.min') != undefined
+          model.validatemin()
+        if _.nested(model, 'changed.options.max') != undefined
+          model.validatemax()
+        model
+
+    attrs.validatemin = () ->
+      min = parseInt(@get('options.min'))
+      max = parseInt(@get('options.max'))
+
+      if isNaN(min)
+        @set('options.min', 0)
+
+      if min > max
+        @set('options.min', max)
+      if isNaN(max)
+        @set('options.max', 500)
+    attrs
+
+    attrs.validatemax = () ->
+      min = parseInt(@get('options.min'))
+      max = parseInt(@get('options.max'))
+
+      if isNaN(max)
+        @set('options.max', 0)
+
+      console.log(min)
+      console.log(max)
+      if max < min
+        @set('options.min', 0)
+    attrs
+
     attrs.numericSiblings = () ->
       parentModel = @parentModel()
       if (parentModel)

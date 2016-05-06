@@ -6,15 +6,10 @@ Formbuilder.registerField 'price',
 
   view: """
     <div class='input-line'>
-      <span class='above-line'>$</span>
+      <span class='above-line'>PKR</span>
       <span class='dolars'>
         <input type='text' />
-        <label>Dollars</label>
-      </span>
-      <span class='above-line'>.</span>
-      <span class='cents'>
-        <input type='text' />
-        <label>Cents</label>
+        <!--<label>PKR</label>-->
       </span>
     </div>
   """

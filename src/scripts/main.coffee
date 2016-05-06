@@ -853,6 +853,7 @@ class Formbuilder
       SIZE: 'options.size'
       INITIAL_VALUE: 'options.initial_value'
       INITIAL_DATE: 'options.initial_date'
+      INITIAL_TIME: 'options.initial_time'
       UNITS: 'options.units'
       LABEL: 'label'
       NAME: 'definition.name'

@@ -5,7 +5,7 @@ Formbuilder.registerField 'image',
   order: 65
 
   view: """
-    <canvas />
+    <input type='file' />
   """
 
   edit: ""

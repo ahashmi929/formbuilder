@@ -1,0 +1,9 @@
+<div class='fb-edit-section-header'>Initial Time(HH:MM:SS PM)</div>
+<input type='text' id="default_time" data-rv-input='model.<%= Formbuilder.options.mappings.INITIAL_TIME %>' />
+<script >
+
+    $(document).ready(function(){
+     $("#default_time").inputmask("99:99:99 AA");  //static mask
+    });
+
+</script>

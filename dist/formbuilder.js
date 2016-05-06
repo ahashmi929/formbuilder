@@ -1274,6 +1274,7 @@
         SIZE: 'options.size',
         INITIAL_VALUE: 'options.initial_value',
         INITIAL_DATE: 'options.initial_date',
+        INITIAL_TIME: 'options.initial_time',
         UNITS: 'options.units',
         LABEL: 'label',
         NAME: 'definition.name',
@@ -1628,7 +1629,7 @@
   Formbuilder.registerField('file', {
     name: 'File',
     order: 55,
-    view: "<canvas />",
+    view: "<input type='file' />",
     edit: "",
     addButton: "<span class=\"glyphicon glyphicon-paperclip\"></span> File"
   });
@@ -1664,7 +1665,7 @@
   Formbuilder.registerField('image', {
     name: 'Image',
     order: 65,
-    view: "<canvas />",
+    view: "<input type='file' />",
     edit: "",
     addButton: "<span class=\"glyphicon glyphicon-picture\"></span> Image"
   });
@@ -1716,7 +1717,7 @@
         }
       };
       attrs.initialize = function() {
-        return this.on("change", function(model) {
+        this.on("change", function(model) {
           var totalSequence;
           if (_.nested(model, 'changed.options.calculation_type') !== void 0) {
             model.expression();
@@ -1727,7 +1728,45 @@
           }
           return model;
         });
+        return this.on("change", function(model) {
+          if (_.nested(model, 'changed.options.min') !== void 0) {
+            model.validatemin();
+          }
+          if (_.nested(model, 'changed.options.max') !== void 0) {
+            model.validatemax();
+          }
+          return model;
+        });
       };
+      attrs.validatemin = function() {
+        var max, min;
+        min = parseInt(this.get('options.min'));
+        max = parseInt(this.get('options.max'));
+        if (isNaN(min)) {
+          this.set('options.min', 0);
+        }
+        if (min > max) {
+          this.set('options.min', max);
+        }
+        if (isNaN(max)) {
+          return this.set('options.max', 500);
+        }
+      };
+      attrs;
+      attrs.validatemax = function() {
+        var max, min;
+        min = parseInt(this.get('options.min'));
+        max = parseInt(this.get('options.max'));
+        if (isNaN(max)) {
+          this.set('options.max', 0);
+        }
+        console.log(min);
+        console.log(max);
+        if (max < min) {
+          return this.set('options.min', 0);
+        }
+      };
+      attrs;
       attrs.numericSiblings = function() {
         var parentModel;
         parentModel = this.parentModel();
@@ -1775,7 +1814,7 @@
   Formbuilder.registerField('price', {
     name: 'Price',
     order: 45,
-    view: "<div class='input-line'>\n  <span class='above-line'>$</span>\n  <span class='dolars'>\n    <input type='text' />\n    <label>Dollars</label>\n  </span>\n  <span class='above-line'>.</span>\n  <span class='cents'>\n    <input type='text' />\n    <label>Cents</label>\n  </span>\n</div>",
+    view: "<div class='input-line'>\n  <span class='above-line'>PKR</span>\n  <span class='dolars'>\n    <input type='text' />\n    <!--<label>PKR</label>-->\n  </span>\n</div>",
     edit: "",
     addButton: "<span class=\"glyphicon glyphicon-usd\"></span> Price"
   });
@@ -1919,9 +1958,48 @@
     name: 'Short Answer',
     order: 0,
     view: "<% var initial_value = rf.get(Formbuilder.options.mappings.INITIAL_VALUE); %>\n<input type='text' value='<%= initial_value %>' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
-    edit: "<% var minlength = rf.get(Formbuilder.options.mappings.MINLENGTH); %>\n<% var maxlength = rf.get(Formbuilder.options.mappings.MAXLENGTH); %>\n\n<%= Formbuilder.templates['edit/initial_value']() %>\n<%= Formbuilder.templates['edit/min_max_length']() %>",
+    edit: "<% var minlength = rf.get(Formbuilder.options.mappings.MINLENGTH); %>\n<% var maxlength = rf.get(Formbuilder.options.mappings.MAXLENGTH); %>\n\n<%= Formbuilder.templates['edit/initial_value']() %>\n<%= Formbuilder.templates['edit/min_max_length']({ rf: rf }) %>",
     addButton: "<span class=\"fb-icon-text\"></span> Text",
-    defaultAttributes: function(attrs) {
+    defaultAttributes: function(attrs, formbuilder) {
+      attrs.initialize = function() {
+        return this.on("change", function(model) {
+          if (_.nested(model, 'changed.options.minlength') !== void 0) {
+            model.validatemin();
+          }
+          if (_.nested(model, 'changed.options.maxlength') !== void 0) {
+            model.validatemax();
+          }
+          return model;
+        });
+      };
+      attrs.validatemin = function() {
+        var maxlength, minlength;
+        minlength = parseInt(this.get('options.minlength'));
+        maxlength = parseInt(this.get('options.maxlength'));
+        if (isNaN(minlength)) {
+          this.set('options.minlength', 0);
+        }
+        if (minlength > maxlength) {
+          this.set('options.minlength', maxlength);
+        }
+        if (isNaN(maxlength)) {
+          return this.set('options.maxlength', 500);
+        }
+      };
+      attrs;
+      attrs.validatemax = function() {
+        var maxlength, minlength;
+        minlength = parseInt(this.get('options.minlength'));
+        maxlength = parseInt(this.get('options.maxlength'));
+        if (isNaN(maxlength)) {
+          this.set('options.maxlength', 0);
+        }
+        console.log(minlength);
+        console.log(maxlength);
+        if (maxlength < minlength) {
+          return this.set('options.minlength', 0);
+        }
+      };
       return attrs;
     }
   });
@@ -1945,13 +2023,12 @@
 
 (function() {
   Formbuilder.registerField('time', {
-    name: 'Time',
     order: 25,
-    view: "<div class=\"form-group\">\n  <div class=\"input-group\">\n    <input type=\"text\" class=\"form-control\" placeholder=\"12:00 PM\">\n    <div class=\"input-group-addon glyphicon glyphicon-time\"></div>\n  </div>\n</div>",
-    edit: "<%= Formbuilder.templates['edit/time']({ rf: rf }) %>",
-    addButton: "<span class=\"fb-icon-time\"></span> Time",
+    view: "<% var time = rf.get(Formbuilder.options.mappings.INITIAL_TIME), timeparts = time.split(/[ :]+/); %>\n<div class='input-line'>\n  <span class='hours'>\n    <input type=\"text\" value='<%= (timeparts[0] > 12 || timeparts[0] < 1) ? ((timeparts[0] > 12) ? '12' : '1') : timeparts[0] %>'/>\n    <label>HH</label>\n  </span>\n  <span class='above-line'>:</span>\n  <span class='minutes'>\n    <input type=\"text\" value='<%= (timeparts[1] > 60 || timeparts[1] < 0) ? ((timeparts[1] > 60) ? '60' : '0') : timeparts[1] %>'/>\n    <label>MM</label>\n  </span>\n  <span class='above-line'>:</span>\n  <span class='seconds'>\n    <input type=\"text\" value='<%= (timeparts[2] > 60 || timeparts[2] < 0) ? ((timeparts[2] > 60) ? '60' : '0') : timeparts[2] %>'/>\n    <label>SS</label>\n  </span>\n  <span class='am_pm'>\n    <select>\n      <option <%= (timeparts[3] == 'AM') ? 'selected=\"selected\"' : '' %> >AM</option>\n      <option <%= (timeparts[3] == 'PM') ? 'selected=\"selected\"' : '' %> >PM</option>\n    </select>\n  </span>\n</div>",
+    edit: "<%= Formbuilder.templates['edit/initial_time']() %>",
+    addButton: "<span class=\"symbol\"><span class=\"fb-icon-time\"></span></span> Time",
     defaultAttributes: function(attrs) {
-      attrs.options.default_time = false;
+      attrs.options.initial_time = 'HH:MM:SS AA';
       return attrs;
     }
   });
@@ -2138,9 +2215,21 @@ this["Formbuilder"]["templates"]["edit/initial_date"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class=\'fb-edit-section-header\'>Initial Date</div>\n<input type=\'text\' data-rv-input=\'model.' +
+__p += '<div class=\'fb-edit-section-header\'>Initial Date (MM-DD-YYYY)</div>\n<input type=\'text\' id="default_date" data-rv-input=\'model.' +
 ((__t = ( Formbuilder.options.mappings.INITIAL_DATE )) == null ? '' : __t) +
-'\' />';
+'\' />\n<script >\n\n    $(document).ready(function(){\n     $("#default_date").inputmask("99-99-9999");  //static mask\n    });\n\n</script>';
+
+}
+return __p
+};
+
+this["Formbuilder"]["templates"]["edit/initial_time"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div class=\'fb-edit-section-header\'>Initial Time(HH:MM:SS PM)</div>\n<input type=\'text\' id="default_time" data-rv-input=\'model.' +
+((__t = ( Formbuilder.options.mappings.INITIAL_TIME )) == null ? '' : __t) +
+'\' />\n<script >\n\n    $(document).ready(function(){\n     $("#default_time").inputmask("99:99:99 AA");  //static mask\n    });\n\n</script>';
 
 }
 return __p
@@ -2188,11 +2277,11 @@ this["Formbuilder"]["templates"]["edit/min_max"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class=\'fb-edit-section-header\'>Minimum / Maximum</div>\n\nMin\n<input type="number" data-rv-input="model.' +
-((__t = ( Formbuilder.options.mappings.MIN )) == null ? '' : __t) +
-'" style="width: 100px" />\n\n&nbsp;&nbsp;\n\nMax\n<input type="number" data-rv-input="model.' +
+__p += '<div class=\'fb-edit-section-header\'>Minimum / Maximum</div>\n\nMax\n<input type="number" data-rv-input="model.' +
 ((__t = ( Formbuilder.options.mappings.MAX )) == null ? '' : __t) +
-'" style="width: 100px" />';
+'" style="width: 100px" />\n\n&nbsp;&nbsp;\n\nMin\n<input type="number" data-rv-input="model.' +
+((__t = ( Formbuilder.options.mappings.MIN )) == null ? '' : __t) +
+'" style="width: 100px" />\n';
 
 }
 return __p
@@ -2202,11 +2291,11 @@ this["Formbuilder"]["templates"]["edit/min_max_length"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class=\'fb-edit-section-header\'>Length Limit (characters)</div>\n\nMin\n<input class="form-control" type="number" data-rv-input="model.' +
-((__t = ( Formbuilder.options.mappings.MINLENGTH )) == null ? '' : __t) +
-'" style="width: 100px" />\n\n&nbsp;\n\nMax\n<input class="form-control" type="number" data-rv-input="model.' +
+__p += '<div class=\'fb-edit-section-header\'>Length Limit (characters)</div>\n\n\nMax\n<input class="form-control" type="number" data-rv-input="model.' +
 ((__t = ( Formbuilder.options.mappings.MAXLENGTH )) == null ? '' : __t) +
-'" style="width: 100px" />\n\n<!--&nbsp;\n\n<select class="form-control" data-rv-value="model.' +
+'" style="width: 100px" />\n&nbsp;\nMin\n<input class="form-control" type="number" data-rv-input="model.' +
+((__t = ( Formbuilder.options.mappings.MINLENGTH )) == null ? '' : __t) +
+'" style="width: 100px" />\n\n\n\n\n<!--&nbsp;\n\n<select class="form-control" data-rv-value="model.' +
 ((__t = ( Formbuilder.options.mappings.LENGTH_UNITS )) == null ? '' : __t) +
 '" style="width: 100px;">\n  <option value="characters">characters</option>\n  <option value="words">words</option>\n</select>-->\n';
 
