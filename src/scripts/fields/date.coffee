@@ -29,7 +29,7 @@ Formbuilder.registerField 'date',
   """
 
   addButton: """
-    <span class="fb-icon-date"></span> Date
+    <span class="fa fa-calendar"></span> Date
   """
   defaultAttributes: (attrs) ->
     attrs.options.initial_date = 'MM - DD - YYYY'

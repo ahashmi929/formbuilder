@@ -17,5 +17,5 @@ Formbuilder.registerField 'price',
   edit: ""
 
   addButton: """
-    <span class="glyphicon glyphicon-usd"></span> Price
+    <span class="fa fa-money"></span> Price
   """

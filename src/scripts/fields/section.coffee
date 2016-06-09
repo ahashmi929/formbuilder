@@ -4,7 +4,7 @@ Formbuilder.registerField 'section',
 
   order: 70
 
-  #element_type: 'non_input'
+  element_type: 'non_input'
 
   view: """
     <label class='section-name'><%= rf.get(Formbuilder.options.mappings.LABEL) %></label>
@@ -23,5 +23,5 @@ Formbuilder.registerField 'section',
   """
 
   addButton: """
-    <span class="fb-icon-section"></span> Section Break
+    <span class=""><small><b>---</b></small></span> Section Break
   """

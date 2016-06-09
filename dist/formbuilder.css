@@ -1,21 +1,5 @@
 [class^="fb-icon-"]:before,[class*=" fb-icon-"]:before{font-family:"fontello";font-style:normal;font-weight:normal;speak:none;display:inline-block;text-decoration:inherit;width:1em;margin-right:.2em;text-align:center;font-variant:normal;text-transform:none;line-height:1em;margin-left:.2em}
-.fb-icon-date:before{content:'\e800'}
-.fb-icon-radio:before{content:'\e801'}
-.fb-icon-checkbox:before{content:'\e802'}
-.fb-icon-data-source:before{content:'\e803'}
-.fb-icon-dropdown:before{content:'\e804'}
-.fb-icon-signature:before{content:'\e805'}
-.fb-icon-info:before{content:'\e806'}
-.fb-icon-table:before{content:'\e807'}
-.fb-icon-textarea:before{content:'\e808'}
-.fb-icon-section:before{content:'\e809'}
-.fb-icon-text:before{content:'\e80a'}
-.fb-icon-number:before{content:'\e80b'}
-.fb-icon-time:before{content:'\e80c'}
-.fb-icon-image:before{content:'\e800'}
-.fb-icon-file:before{content:'\e800'}
-.fb-icon-price:before{content:'\e800'}
-.fb-button{text-align:left}
+.fb-button{text-align:left !important}
 .fb-clear{clear:both}
 .fb-main{padding:0 20px 0 0;position:relative}
 .fb-save-wrapper{position:absolute;right:20px;top:10px}

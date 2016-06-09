@@ -9,17 +9,20 @@
           <%= f.addButton %>
         </a>
       <% }); %>
+
+      <% _.chain(Formbuilder.nonInputFields)
+      .sortBy('order')
+      .filter(function(f){ return f.enabled; })
+      .each(function(f){ %>
+      <a data-type="<%= f.type %>" class="<%= Formbuilder.options.BUTTON_CLASS_SELECTOR %>">
+          <%= f.addButton %>
+      </a>
+      <% }); %>
+
     </div>
 
     <div class='section'>
-      <% _.chain(Formbuilder.nonInputFields)
-          .sortBy('order')
-          .filter(function(f){ return f.enabled; })
-          .each(function(f){ %>
-        <a data-type="<%= f.type %>" class="<%= Formbuilder.options.BUTTON_CLASS_SELECTOR %>">
-          <%= f.addButton %>
-        </a>
-      <% }); %>
+
     </div>
   </div>
 </div>

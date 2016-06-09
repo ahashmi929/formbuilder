@@ -29,14 +29,12 @@ Formbuilder.registerField 'radio',
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/scoring']({ rf: rf }) %>
     <%= Formbuilder.templates['edit/options']({ rf: rf }) %>
-    <%= Formbuilder.templates['edit/options_per_row']({ rf: rf }) %>
   """
 
 
   addButton: """
-    <span class="fb-icon-radio"></span> Multiple Choice
+    <span class="fa fa-dot-circle-o"></span> Multiple Choice
   """
 
   defaultAttributes: (attrs) ->
@@ -53,7 +51,6 @@ Formbuilder.registerField 'radio',
       score: ""
     ]
 
-    attrs.is_scored = false
     attrs.options.options_per_row = 1
 
     attrs

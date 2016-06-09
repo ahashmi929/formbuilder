@@ -29,11 +29,10 @@ Formbuilder.registerField 'checkbox',
 
   edit: """
     <%= Formbuilder.templates['edit/options']({ rf: rf }) %>
-    <%= Formbuilder.templates['edit/options_per_row']({ rf: rf }) %>
   """
 
   addButton: """
-    <span class="fb-icon-checkbox"></span> Checkboxes
+    <span class="fa fa-check-square-o"></span> Checkboxes
   """
 
   defaultAttributes: (attrs) ->

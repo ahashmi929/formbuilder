@@ -11,5 +11,5 @@ Formbuilder.registerField 'image',
   edit: ""
 
   addButton: """
-    <span class="glyphicon glyphicon-picture"></span> Image
+    <span class="fa fa-file-image-o"></span> Image
   """

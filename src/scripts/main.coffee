@@ -847,7 +847,7 @@ class Formbuilder
     HTTP_METHOD: 'POST'
     AUTOSAVE: false
     CLEAR_FIELD_CONFIRM: false
-    ENABLED_FIELDS: ['text','checkbox','dropdown', 'textarea', 'radio','date','number', 'time','price','file','image','section']
+    ENABLED_FIELDS: ['text','checkbox','dropdown', 'textarea', 'radio','date','number', 'time','email','file','image','section']
 
     mappings:
       SIZE: 'options.size'

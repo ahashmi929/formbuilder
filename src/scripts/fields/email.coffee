@@ -11,5 +11,5 @@ Formbuilder.registerField 'email',
   edit: ""
 
   addButton: """
-    <span class="icon-email"></span> Email
+    <span class="fa fa-envelope-o"></span> Email
   """

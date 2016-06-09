@@ -13,7 +13,7 @@ Formbuilder.registerField 'textarea',
   """
 
   addButton: """
-    <span class="fb-icon-textarea"></span> Paragraph
+    <span class="fa fa-paragraph"></span> Paragraph
   """
 
   defaultAttributes: (attrs) ->

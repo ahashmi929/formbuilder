@@ -5,19 +5,17 @@ Formbuilder.registerField 'number',
   order: 30
 
   view: """
-    <input type='text' class="calculated" value="<%= rf.get(Formbuilder.options.mappings.NUMERIC.CALCULATION_DISPLAY) %>" <%= rf.get(Formbuilder.options.mappings.NUMERIC.CALCULATION_DISPLAY) ? 'readonly="readonly"' : ''  %> />
-    <% if (units = rf.get(Formbuilder.options.mappings.UNITS)) { %>
-      <%= units %>
-    <% } %>
+    <% var initial_value = rf.get(Formbuilder.options.mappings.INITIAL_VALUE); %>
+    <input type='text' value='<%= initial_value %>' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/initial_value']() %>
+    <%= Formbuilder.templates['edit/initial_value_number']() %>
     <%= Formbuilder.templates['edit/total']({rf:rf}) %>
     <%= Formbuilder.templates['edit/min_max']({rf:rf}) %>
   """
   addButton: """
-    <span class="fb-icon-number"></span> Number
+    <span class=""><small><b>123</b></small></span> Number
   """
 
   defaultAttributes: (attrs, formbuilder) ->
@@ -45,6 +43,13 @@ Formbuilder.registerField 'number',
           model.validatemax()
         model
 
+      @on "change", (model) ->
+        if _.nested(model, 'changed.options.initial_value') != undefined
+          max = parseInt(@get('options.max'))
+          initialval = parseInt(@get('options.initial_value'))
+
+
+
     attrs.validatemin = () ->
       min = parseInt(@get('options.min'))
       max = parseInt(@get('options.max'))
@@ -65,10 +70,9 @@ Formbuilder.registerField 'number',
       if isNaN(max)
         @set('options.max', 0)
 
-      console.log(min)
-      console.log(max)
       if max < min
         @set('options.min', 0)
+
     attrs
 
     attrs.numericSiblings = () ->

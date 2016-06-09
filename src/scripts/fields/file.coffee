@@ -11,5 +11,5 @@ Formbuilder.registerField 'file',
   edit: ""
 
   addButton: """
-    <span class="glyphicon glyphicon-paperclip"></span> File
+    <span class="fa fa-file"></span> File
   """

@@ -18,12 +18,11 @@ Formbuilder.registerField 'dropdown',
   """
 
   edit: """
-    <%= Formbuilder.templates['edit/scoring']() %>
     <%= Formbuilder.templates['edit/options']({ rf: rf }) %>
   """
 
   addButton: """
-    <span class="fb-icon-dropdown"></span> Dropdown
+    <span class="fa fa-caret-down"></span> Dropdown
   """
 
   defaultAttributes: (attrs) ->
