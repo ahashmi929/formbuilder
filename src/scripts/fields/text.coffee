@@ -21,39 +21,4 @@ Formbuilder.registerField 'text',
     <span class="fa fa-font"></span> Text
   """
 
-  defaultAttributes: (attrs, formbuilder) ->
 
-    attrs.initialize = () ->
-
-      @on "change", (model) ->
-        if _.nested(model, 'changed.options.minlength') != undefined
-          model.validatemin()
-        if _.nested(model, 'changed.options.maxlength') != undefined
-          model.validatemax()
-        model
-
-    attrs.validatemin = () ->
-      minlength = parseInt(@get('options.minlength'))
-      maxlength = parseInt(@get('options.maxlength'))
-
-      if isNaN(minlength)
-        @set('options.minlength', 0)
-
-      if minlength > maxlength
-        @set('options.minlength', maxlength)
-      if isNaN(maxlength)
-        @set('options.maxlength', 500)
-    attrs
-
-    attrs.validatemax = () ->
-      minlength = parseInt(@get('options.minlength'))
-      maxlength = parseInt(@get('options.maxlength'))
-
-      if isNaN(maxlength)
-        @set('options.maxlength', 0)
-
-      console.log(minlength)
-      console.log(maxlength)
-      if maxlength < minlength
-        @set('options.minlength', 0)
-    attrs

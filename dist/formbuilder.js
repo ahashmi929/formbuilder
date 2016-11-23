@@ -1717,26 +1717,6 @@
         }
       };
       attrs.initialize = function() {
-        this.on("change", function(model) {
-          var totalSequence;
-          if (_.nested(model, 'changed.options.calculation_type') !== void 0) {
-            model.expression();
-          }
-          if (_.nested(model, 'changed.options.total_sequence') !== void 0) {
-            totalSequence = _.nested(model, 'changed.options.total_sequence');
-            this.parentModel().totalColumn(model.get('uuid'), totalSequence);
-          }
-          return model;
-        });
-        this.on("change", function(model) {
-          if (_.nested(model, 'changed.options.min') !== void 0) {
-            model.validatemin();
-          }
-          if (_.nested(model, 'changed.options.max') !== void 0) {
-            model.validatemax();
-          }
-          return model;
-        });
         return this.on("change", function(model) {
           var initialval, max;
           if (_.nested(model, 'changed.options.initial_value') !== void 0) {
@@ -1745,33 +1725,6 @@
           }
         });
       };
-      attrs.validatemin = function() {
-        var max, min;
-        min = parseInt(this.get('options.min'));
-        max = parseInt(this.get('options.max'));
-        if (isNaN(min)) {
-          this.set('options.min', 0);
-        }
-        if (min > max) {
-          this.set('options.min', max);
-        }
-        if (isNaN(max)) {
-          return this.set('options.max', 500);
-        }
-      };
-      attrs;
-      attrs.validatemax = function() {
-        var max, min;
-        min = parseInt(this.get('options.min'));
-        max = parseInt(this.get('options.max'));
-        if (isNaN(max)) {
-          this.set('options.max', 0);
-        }
-        if (max < min) {
-          return this.set('options.min', 0);
-        }
-      };
-      attrs;
       attrs.numericSiblings = function() {
         var parentModel;
         parentModel = this.parentModel();
@@ -1964,49 +1917,7 @@
     order: 0,
     view: "<% var initial_value = rf.get(Formbuilder.options.mappings.INITIAL_VALUE); %>\n<input type='text' value='<%= initial_value %>' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
     edit: "<% var minlength = rf.get(Formbuilder.options.mappings.MINLENGTH); %>\n<% var maxlength = rf.get(Formbuilder.options.mappings.MAXLENGTH); %>\n\n<%= Formbuilder.templates['edit/initial_value']() %>\n<%= Formbuilder.templates['edit/min_max_length']({ rf: rf }) %>",
-    addButton: "<span class=\"fa fa-font\"></span> Text",
-    defaultAttributes: function(attrs, formbuilder) {
-      attrs.initialize = function() {
-        return this.on("change", function(model) {
-          if (_.nested(model, 'changed.options.minlength') !== void 0) {
-            model.validatemin();
-          }
-          if (_.nested(model, 'changed.options.maxlength') !== void 0) {
-            model.validatemax();
-          }
-          return model;
-        });
-      };
-      attrs.validatemin = function() {
-        var maxlength, minlength;
-        minlength = parseInt(this.get('options.minlength'));
-        maxlength = parseInt(this.get('options.maxlength'));
-        if (isNaN(minlength)) {
-          this.set('options.minlength', 0);
-        }
-        if (minlength > maxlength) {
-          this.set('options.minlength', maxlength);
-        }
-        if (isNaN(maxlength)) {
-          return this.set('options.maxlength', 500);
-        }
-      };
-      attrs;
-      attrs.validatemax = function() {
-        var maxlength, minlength;
-        minlength = parseInt(this.get('options.minlength'));
-        maxlength = parseInt(this.get('options.maxlength'));
-        if (isNaN(maxlength)) {
-          this.set('options.maxlength', 0);
-        }
-        console.log(minlength);
-        console.log(maxlength);
-        if (maxlength < minlength) {
-          return this.set('options.minlength', 0);
-        }
-      };
-      return attrs;
-    }
+    addButton: "<span class=\"fa fa-font\"></span> Text"
   });
 
 }).call(this);
@@ -2294,10 +2205,10 @@ this["Formbuilder"]["templates"]["edit/min_max"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class=\'fb-edit-section-header\'>Maximum / Minimum</div>\n\nMax\n<input type="number" data-rv-input="model.' +
-((__t = ( Formbuilder.options.mappings.MAX )) == null ? '' : __t) +
-'" style="width: 100px" />\n\n&nbsp;&nbsp;\n\nMin\n<input type="number" data-rv-input="model.' +
+__p += '<div class=\'fb-edit-section-header\'>Minimum / Maximum</div>\n\n\nMin\n<input type="number" data-rv-input="model.' +
 ((__t = ( Formbuilder.options.mappings.MIN )) == null ? '' : __t) +
+'" style="width: 100px" />\n&nbsp;&nbsp;\nMax\n<input type="number" data-rv-input="model.' +
+((__t = ( Formbuilder.options.mappings.MAX )) == null ? '' : __t) +
 '" style="width: 100px" />\n';
 
 }
@@ -2308,10 +2219,10 @@ this["Formbuilder"]["templates"]["edit/min_max_length"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class=\'fb-edit-section-header\'>Length Limit (characters)</div>\n\n\nMax\n<input class="form-control" type="number" data-rv-input="model.' +
-((__t = ( Formbuilder.options.mappings.MAXLENGTH )) == null ? '' : __t) +
-'" style="width: 100px" />\n&nbsp;\nMin\n<input class="form-control" type="number" data-rv-input="model.' +
+__p += '<div class=\'fb-edit-section-header\'>Length Limit (characters)</div>\n\n\nMin\n<input class="form-control" type="number" data-rv-input="model.' +
 ((__t = ( Formbuilder.options.mappings.MINLENGTH )) == null ? '' : __t) +
+'" style="width: 100px" />\n&nbsp;\nMax\n<input class="form-control" type="number" data-rv-input="model.' +
+((__t = ( Formbuilder.options.mappings.MAXLENGTH )) == null ? '' : __t) +
 '" style="width: 100px" />\n\n\n\n\n<!--&nbsp;\n\n<select class="form-control" data-rv-value="model.' +
 ((__t = ( Formbuilder.options.mappings.LENGTH_UNITS )) == null ? '' : __t) +
 '" style="width: 100px;">\n  <option value="characters">characters</option>\n  <option value="words">words</option>\n</select>-->\n';
